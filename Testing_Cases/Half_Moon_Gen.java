@@ -24,8 +24,8 @@ public class Half_Moon_Gen{
     public Half_Moon_Gen(int test_size, int radius, int width, int distance){ 
         file_name = "Half_moon_gen.csv";
         rand = new Random();
-        rand.setSeed(0);
-        generate_file(test_size, radius, width, distance);
+        
+        generate_file(test_size, radius, width / 2, distance);
     }
 
     /**
@@ -41,8 +41,8 @@ public class Half_Moon_Gen{
     public Half_Moon_Gen(int test_size, int radius, int width, int distance, String name){ 
         file_name = name + ".csv";
         rand = new Random();
-        rand.setSeed(0);
-        generate_file(test_size, radius, width, distance);
+        
+        generate_file(test_size, radius, width / 2, distance);
     }
 
     /***
@@ -80,22 +80,24 @@ public class Half_Moon_Gen{
      * @param width width of the halfmoon
      */
     private String generate_point(int radius, int width, boolean bottom, int distance){
+        int x = 0;
         int y = 0;
-        //generate x - between [-r, r]
-        int x = rand.nextInt( radius * 2 ) - radius;
-        //generate random width 
-        width = rand.nextInt(  width * 2 ) - width;
-  
-        //top half 
-        y = (int)Math.sqrt(radius * radius - x * x) + width;
+        //generate random width [-d, d]
+        width = rand.nextInt(  width  * 2 + 1) - width;
+        radius += width;  
+        //generate x - between [-(r + w), (r + w)]
+        x = rand.nextInt( radius * 2 + 1) - radius;
+        //top half             
+        y = (int)Math.sqrt(radius * radius - x * x);
+        
+        if(bottom){
+            //bottom half
+            y = -1 * y;
+            x += radius - width;
+        } 
+
         //add the desired distance between the values - should be half
         y += distance / 2;
-
-        //bottom half
-        if(bottom){
-            x += radius / 2;
-            y = y * -1;
-        }  
         
         //add to the file, with a mark letting you know if it's
         //top or bottom of the 

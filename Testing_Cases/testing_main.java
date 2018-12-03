@@ -10,6 +10,6 @@ import java.io.File;
 
  public class testing_main{
      public static void main(String args[]){
-         Half_Moon_Gen h_m_g = new Half_Moon_Gen(1000, 10, 6, 6);
+         Half_Moon_Gen h_m_g = new Half_Moon_Gen(1000, 10, 6, 3);
      }
  }
